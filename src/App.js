@@ -1,24 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { ThemeProvider, CssBaseline, CircularProgress } from '@mui/material';
+import Login from './Login/Login';
+import Dashboard from './Dashboard/Dashboard';
+import theme from './styles/theme';
+import Updatetodo from './Dashboard/Updatetodo';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Routes>
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Dashboard" element={<Dashboard />} />
+        <Route path='/update/:id' element={<Updatetodo />} />
+      </Routes>
+    </ThemeProvider >
   );
 }
 

@@ -16,55 +16,127 @@ You may also see any lint errors in the console.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 1. Project structure and defined
+ Todo App เป็นโปรเจ็คที่ใช้ ReactJS ในการทำ UI Frontend โดยใช้ MUI Library เพื่อเป็นฟีเจอร์ต่างๆในโปรเจ็ค
+ ในโปรเจ็คจะประกอบด้วยหน้า Login from, Dasgboard ซึ่งสามารถ GET, Create, Update, Delete todo list ได้
+ ซึ่งทางฝั่ง Back-end จะใช้ Node.JS express ในการทำ web service เพื่อให้ระบบสามารถ REST API ได้
+   - Login จะมีการนำ JWT token จาก API response และเมื่อ Login แล้วจะ expiresIn ภายใน 1Hr.
 
-### `npm run build`
+### Neversitup Candidate Test
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 2.Show coding logic and unit test Permutations (Choose your the most skilled)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+import React, { Component } from 'react';
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+class PermutationsGenerator extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      inputString: '',
+      permutations: [],
+    };
+  }
 
-### `npm run eject`
+  generatePermutations = (input) => {
+    const permutations = new Set();
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    const backtrack = (inputArr, start) => {
+      if (start === inputArr.length - 1) {
+        permutations.add(inputArr.join(''));
+      } else {
+        for (let i = start; i < inputArr.length; i++) {
+          [inputArr[start], inputArr[i]] = [inputArr[i], inputArr[start]]; // Swap characters
+          backtrack([...inputArr], start + 1);
+          [inputArr[start], inputArr[i]] = [inputArr[i], inputArr[start]]; // Backtrack
+        }
+      }
+    };
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    const inputArr = input.split('');
+    backtrack(inputArr, 0);
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+    return Array.from(permutations);
+  };
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+  handleInputChange = (event) => {
+    const inputString = event.target.value;
+    const permutations = this.generatePermutations(inputString);
+    this.setState({ inputString, permutations });
+  };
 
-## Learn More
+  render() {
+    return (
+      <div>
+        <input
+          type="text"
+          placeholder="Enter a string"
+          value={this.state.inputString}
+          onChange={this.handleInputChange}
+        />
+        <ul>
+          {this.state.permutations.map((permutation, index) => (
+            <li key={index}>{permutation}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+}
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+export default PermutationsGenerator;
+#####
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 3. Show coding logic and unit test Find the odd int (Choose your the most skilled)
+import React, { Component } from 'react';
 
-### Code Splitting
+class FindOddInt extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      inputArray: '',
+      result: null,
+    };
+  }
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+  findOddInt = (arr) => {
+    const countMap = {};
+    for (const num of arr) {
+      countMap[num] = (countMap[num] || 0) + 1;
+    }
 
-### Analyzing the Bundle Size
+    for (const num in countMap) {
+      if (countMap[num] % 2 !== 0) {
+        return parseInt(num);
+      }
+    }
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+    return null;
+  };
 
-### Making a Progressive Web App
+  handleInputChange = (event) => {
+    const inputArray = event.target.value.split(',').map((str) => parseInt(str.trim(), 10));
+    const result = this.findOddInt(inputArray);
+    this.setState({ inputArray, result });
+  };
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+  render() {
+    return (
+      <div>
+        <input
+          type="text"
+          placeholder="Enter an array of integers (e.g., 1,2,3)"
+          value={this.state.inputArray.join(',')}
+          onChange={this.handleInputChange}
+        />
+        {this.state.result !== null && (
+          <p>
+            The integer that appears an odd number of times is: {this.state.result}
+          </p>
+        )}
+      </div>
+    );
+  }
+}
 
-### Advanced Configuration
+export default FindOddInt;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
